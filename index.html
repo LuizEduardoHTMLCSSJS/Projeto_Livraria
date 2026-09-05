@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Minha Biblioteca</title>
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    
+<div id="bouncer">L</div>
+
+<script>
+  const el = document.getElementById('bouncer');
+  let x = 50, y = 50;
+  let dx = 2, dy = 2;
+
+  function animar() {
+    const larguraMax = window.innerWidth - el.offsetWidth;
+    const alturaMax = window.innerHeight - el.offsetHeight;
+
+    x += dx;
+    y += dy;
+
+    if (x <= 0 || x >= larguraMax) dx *= -1;
+    if (y <= 0 || y >= alturaMax) dy *= -1;
+
+    el.style.transform = `translate(${x}px, ${y}px)`;
+    requestAnimationFrame(animar);
+  }
+
+  animar();
+</script>
+  <header>
+    <h1>Catalogo da Livraria</h1>
+    <a href="cadastro.html" class="btn-novo">Nova Historia</a>
+  </header>
+
+  <div class="grid-livros">
+    <div class="card-livro">
+      <button class="btn-excluir">🗑</button>
+      <button class="btn-favorito">♥</button>
+      <img src="https://imgs.search.brave.com/Eq0Qy5beokJ0AL0LgAdPmZ1vNdLb2gMslaY0ReTPMWY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/YXN1cmFzY2Fucy5j/b20vYXN1cmEtaW1h/Z2VzL2NvdmVycy8z/MC15ZWFycy1zaW5j/ZS10aGUtcHJvbG9n/dWUuZmMxYTkzLTQw/MC53ZWJw" alt="Capa do livro">
+      <div class="info">
+        <span class="nota">⭐ 9.5</span>
+        <h3>Nome do Livro</h3>
+        <p>Autor do Livro</p>
+      </div>
+    </div>
+
+    <!-- Copie o bloco acima para cada livro novo -->
+    <div class="card-livro">
+      <button class="btn-excluir">🗑</button>
+      <button class="btn-favorito">♥</button>
+      <img src="https://imgs.search.brave.com/2raBcqtrvfBrfQ_b2deJhJmgCxqKYn6OZdsKbX1f_8U/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMtbmEuc3NsLWlt/YWdlcy1hbWF6b24u/Y29tL2ltYWdlcy9J/LzkxN01wNU5wdmNM/LmpwZw" alt="Capa do livro">
+      <div class="info">
+        <span class="nota">⭐ 9.5</span>
+        <h3>Nome do Livro</h3>
+        <p>Autor do Livro</p>
+      </div>
+    </div>
+    <!--teste-->
+    <div class="card-livro">
+      <button class="btn-excluir">🗑</button>
+      <button class="btn-favorito">♥</button>
+      <img src="https://imgs.search.brave.com/Eq0Qy5beokJ0AL0LgAdPmZ1vNdLb2gMslaY0ReTPMWY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/YXN1cmFzY2Fucy5j/b20vYXN1cmEtaW1h/Z2VzL2NvdmVycy8z/MC15ZWFycy1zaW5j/ZS10aGUtcHJvbG9n/dWUuZmMxYTkzLTQw/MC53ZWJw" alt="Capa do livro">
+      <div class="info">
+        <span class="nota">⭐ 9.5</span>
+        <h3>Nome do Livro</h3>
+        <p>Autor do Livro</p>
+      </div>
+    </div>
+
+  </div>
+</body>
+
+</html>

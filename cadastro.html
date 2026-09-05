@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastrar Livro</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <header>
+    <h1>Cadastrar Livro</h1>
+    <a href="index.html" class="btn-novo">← Voltar</a>
+  </header>
+
+  <form style="padding: 30px; max-width: 400px;">
+    <label>Título</label><br>
+    <input type="text" name="titulo" required style="width:100%; margin-bottom:15px; padding:8px;"><br>
+
+    <label>Autor</label><br>
+    <input type="text" name="autor" style="width:100%; margin-bottom:15px; padding:8px;"><br>
+
+    <label>URL da capa</label><br>
+    <input type="text" name="capa" style="width:100%; margin-bottom:15px; padding:8px;"><br>
+
+    <label>Nota (0 a 10)</label><br>
+    <input type="number" name="nota" min="0" max="10" step="0.1" style="width:100%; margin-bottom:15px; padding:8px;"><br>
+
+    <button type="submit" class="btn-novo">Salvar</button>
+  </form>
+</body>
+</html>
