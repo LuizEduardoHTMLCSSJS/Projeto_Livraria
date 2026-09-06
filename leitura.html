@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Leitura</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <header>
+    <h1 id="titulo-livro">Carregando...</h1>
+    <a href="index.html" class="btn-novo">← Voltar</a>
+  </header>
+
+  <iframe id="pdf-livro" style="width: 100%; height: 90vh; border: none;"></iframe>
+
+  <script>
+    const livros = {
+      1: { titulo: "Dom Quixote", pdf: "livros/livro5.pdf" },
+      2: { titulo: "Nome do Livro 2", pdf: "livros/livro2.pdf" },
+      3: { titulo: "Nome do Livro 3", pdf: "livros/livro3.pdf" }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("livro");
+    const livro = livros[id];
+
+    if (livro) {
+      document.getElementById("titulo-livro").textContent = livro.titulo;
+      document.getElementById("pdf-livro").src = livro.pdf;
+    } else {
+      document.getElementById("titulo-livro").textContent = "Livro não encontrado";
+    }
+  </script>
+</body>
+</html>

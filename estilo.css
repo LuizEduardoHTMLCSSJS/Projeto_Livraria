@@ -1,8 +1,8 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  background: #000;
-  color: #f17006;
+  background: #dcdcf7;
+  color: #1e06f1;
    font-family: "UnifrakturMaguntia", "Old English Text MT", serif;
   overflow: hidden; /* evita barra de rolagem por causa do elemento quicando */
 }
@@ -13,8 +13,8 @@ body {
   left: 0;
   font-size: 80px;
   font-family: "UnifrakturMaguntia", "Old English Text MT", serif;
-  color: #ff8c00;
-  text-shadow: 0 0 10px rgba(255, 140, 0, 0.6);
+  color: #1e06f1;
+  text-shadow: 0 0 10px rgba(0, 38, 255, 0.6);
   z-index: -1;
   pointer-events: none;
   user-select: none;
@@ -28,7 +28,7 @@ header {
 }
 
 .btn-novo {
-  background: #e67e39;
+  background: #1e06f1;
   color: #fff;
   padding: 8px 16px;
   border-radius: 6px;
@@ -44,8 +44,8 @@ header {
 
 .card-livro {
   position: relative;
-  background: #1e1e1e;
-  border: 2px solid #e68739;
+  background: #f7f1f1;
+  border: 2px solid #1e06f1;
   border-radius: 10px;
   overflow: hidden;
 }
