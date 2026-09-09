@@ -19,7 +19,7 @@ try {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
-    // Captura os dados enviados do formulário (compatível com os name="titulo", name="autor", etc.)
+    
     $titulo    = trim($_POST['titulo'] ?? '');
     $autor     = trim($_POST['autor'] ?? '');
     $preco     = filter_input(INPUT_POST, 'preco', FILTER_VALIDATE_FLOAT);
