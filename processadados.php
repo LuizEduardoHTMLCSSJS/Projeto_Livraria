@@ -1,46 +1,57 @@
 <?php
 
-try {
-    $pdo = new PDO('sqlite:' . __DIR__ . '/livraria.sqlite');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+require_once 'conexao.php';
 
-    // Garante que a tabela exista no banco
-    $pdo->exec("CREATE TABLE IF NOT EXISTS livros (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        titulo TEXT NOT NULL,
-        autor TEXT NOT NULL,
-        preco REAL NOT NULL,
-        categoria TEXT
-    )");
-} catch (PDOException $e) {
-    die("Erro ao conectar ao banco de dados: " . $e->getMessage());
-}
+$conexaoObj = new Conexao();
+$pdo = $conexaoObj->conectar();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
-    // Captura os dados enviados do formulário (compatível com os name="titulo", name="autor", etc.)
+
     $titulo    = trim($_POST['titulo'] ?? '');
     $autor     = trim($_POST['autor'] ?? '');
     $preco     = filter_input(INPUT_POST, 'preco', FILTER_VALIDATE_FLOAT);
     $categoria = trim($_POST['categoria'] ?? '');
 
-    
     if (!empty($titulo) && !empty($autor) && $preco !== false) {
-        
+
         try {
-            
-            $sql = "INSERT INTO livros (titulo, autor, preco, categoria) VALUES (:titulo, :autor, :preco, :categoria)";
+            // 1. Verifica se o autor já existe; se não, cria
+            $stmt = $pdo->prepare("SELECT id_autor FROM autores WHERE nome = :nome");
+            $stmt->execute([':nome' => $autor]);
+            $idAutor = $stmt->fetchColumn();
+
+            if (!$idAutor) {
+                $stmt = $pdo->prepare("INSERT INTO autores (nome) VALUES (:nome)");
+                $stmt->execute([':nome' => $autor]);
+                $idAutor = $pdo->lastInsertId();
+            }
+
+            // 2. Verifica se a categoria já existe (se foi informada); se não, cria
+            $idCategoria = null;
+            if (!empty($categoria)) {
+                $stmt = $pdo->prepare("SELECT id_categoria FROM categorias WHERE nome = :nome");
+                $stmt->execute([':nome' => $categoria]);
+                $idCategoria = $stmt->fetchColumn();
+
+                if (!$idCategoria) {
+                    $stmt = $pdo->prepare("INSERT INTO categorias (nome) VALUES (:nome)");
+                    $stmt->execute([':nome' => $categoria]);
+                    $idCategoria = $pdo->lastInsertId();
+                }
+            }
+
+            // 3. Insere o livro já com os IDs corretos
+            $sql = "INSERT INTO livros (titulo, preco, imagem, id_autor, id_categoria) 
+                    VALUES (:titulo, :preco, :imagem, :id_autor, :id_categoria)";
             $stmt = $pdo->prepare($sql);
-            
             $stmt->execute([
-                ':titulo'    => $titulo,
-                ':autor'     => $autor,
-                ':preco'     => $preco,
-                ':categoria' => $categoria
+                ':titulo'      => $titulo,
+                ':preco'       => $preco,
+                ':imagem'      => 'assets/default.png', // ajuste se o form tiver campo de imagem
+                ':id_autor'    => $idAutor,
+                ':id_categoria'=> $idCategoria
             ]);
 
-            
             $referer = $_SERVER['HTTP_REFERER'] ?? 'index.php';
             header("Location: " . $referer . "?status=sucesso");
             exit;
@@ -50,7 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
     } else {
-        
         $referer = $_SERVER['HTTP_REFERER'] ?? 'index.php';
         header("Location: " . $referer . "?status=erro");
         exit;
