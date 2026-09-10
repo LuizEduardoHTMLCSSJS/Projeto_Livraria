@@ -6,7 +6,7 @@ $conexaoObj = new Conexao();
 $pdo = $conexaoObj->conectar();
 
 // Caminho da imagem padrão para todos os livros cadastrados
-const IMAGEM_PADRAO = 'assets/default.png';
+const IMAGEM_PADRAO = 'assets/validar.png';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
