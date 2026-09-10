@@ -8,18 +8,18 @@
 <body>
   <header>
     <h1 id="titulo-livro">Carregando...</h1>
-    <a href="index.html" class="btn-novo">← Voltar</a>
+    <a href="index.php" class="btn-novo">← Voltar</a>
   </header>
 
   <iframe id="pdf-livro" style="width: 100%; height: 90vh; border: none;"></iframe>
 
   <script>
     const livros = {
-      1: { titulo: "Dom Quixote", pdf: "livros/livro5.pdf" },
-      2: { titulo: "Branca de Neve", pdf: "livros/livro1.pdf" },
-      3: { titulo: "O Senhor dos Aneis", pdf: "livros/livro2.pdf" },
-      4: { titulo: "As Crônicas de Nárnia", pdf: "livros/livro3.pdf"},
-      5: { titulo: "A Culpa é das Estrelas", pdf: "livros/livro4.pdf"},
+      5: { titulo: "Dom Quixote", pdf: "livros/livro5.pdf" },
+      1: { titulo: "Branca de Neve", pdf: "livros/livro1.pdf" },
+      2: { titulo: "O Senhor dos Aneis", pdf: "livros/livro2.pdf" },
+      3: { titulo: "As Crônicas de Nárnia", pdf: "livros/livro3.pdf"},
+      4: { titulo: "A Culpa é das Estrelas", pdf: "livros/livro4.pdf"},
     };
 
     const params = new URLSearchParams(window.location.search);
