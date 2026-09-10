@@ -5,6 +5,9 @@ require_once 'conexao.php';
 $conexaoObj = new Conexao();
 $pdo = $conexaoObj->conectar();
 
+// Caminho da imagem padrão para todos os livros cadastrados
+const IMAGEM_PADRAO = 'assets/default.png';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $titulo    = trim($_POST['titulo'] ?? '');
@@ -12,9 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $preco     = filter_input(INPUT_POST, 'preco', FILTER_VALIDATE_FLOAT);
     $categoria = trim($_POST['categoria'] ?? '');
 
-    if (!empty($titulo) && !empty($autor) && $preco !== false) {
+    if (!empty($titulo) && !empty($autor) && $preco !== false && $preco >= 0) {
 
         try {
+            $pdo->beginTransaction();
+
             // 1. Verifica se o autor já existe; se não, cria
             $stmt = $pdo->prepare("SELECT id_autor FROM autores WHERE nome = :nome");
             $stmt->execute([':nome' => $autor]);
@@ -40,24 +45,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
 
-            // 3. Insere o livro já com os IDs corretos
+            // 3. Insere o livro já com os IDs corretos e a imagem fixa
             $sql = "INSERT INTO livros (titulo, preco, imagem, id_autor, id_categoria) 
                     VALUES (:titulo, :preco, :imagem, :id_autor, :id_categoria)";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
-                ':titulo'      => $titulo,
-                ':preco'       => $preco,
-                ':imagem'      => 'assets/default.png', // ajuste se o form tiver campo de imagem
-                ':id_autor'    => $idAutor,
-                ':id_categoria'=> $idCategoria
+                ':titulo'       => $titulo,
+                ':preco'        => $preco,
+                ':imagem'       => IMAGEM_PADRAO,
+                ':id_autor'     => $idAutor,
+                ':id_categoria' => $idCategoria
             ]);
+
+            $pdo->commit();
 
             $referer = $_SERVER['HTTP_REFERER'] ?? 'index.php';
             header("Location: " . $referer . "?status=sucesso");
             exit;
 
         } catch (PDOException $e) {
-            die("Erro ao salvar no banco de dados: " . $e->getMessage());
+            $pdo->rollBack();
+            error_log("Erro ao cadastrar livro: " . $e->getMessage());
+            $referer = $_SERVER['HTTP_REFERER'] ?? 'index.php';
+            header("Location: " . $referer . "?status=erro");
+            exit;
         }
 
     } else {
